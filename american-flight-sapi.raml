@@ -1,0 +1,103 @@
+#%RAML 1.0
+title: american-flight-sapi
+
+# This is a comment
+
+# baseUri: http://localhost
+types:
+  AmericanFlight: !include /DataTypes/dataType.raml
+
+/flights:
+  get:
+    queryParameters:
+      priceRange:
+        required: false
+      destination:
+        required: false
+        enum: [SFO, LAX, CLE]
+      planeType:
+        required: false
+    headers:
+      client_id:
+        required: false
+      client_secret:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: AmericanFlight[]
+            examples: !include /Examples/flights-example.raml
+  post:
+    headers:
+      client_id:
+        required: false
+      client_secret:
+        required: false
+    body:
+      application/json:
+        type: AmericanFlight
+        example: !include /Examples/flight-no-ID-example.raml
+    responses:
+      201:
+        body:
+          application/json:
+            examples:
+              message: "fligt added"
+  /{ID}:
+    get:
+      headers:
+        client_id:
+          required: false
+        client_secret:
+          required: false
+      responses:
+        200:
+          body:
+            application/json:
+              type: AmericanFlight
+              example: !include /Examples/flight-example.raml
+    patch:
+      headers:
+        client_id:
+          required: false
+        client_secret:
+          required: false
+      body:
+        application/json:
+          type: AmericanFlight
+          example: !include /Examples/flight-no-ID-example.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: "fligt updated"
+    put:
+      headers:
+        client_id:
+          required: false
+        client_secret:
+          required: false
+      body:
+        application/json:
+          type: AmericanFlight
+          example: !include /Examples/flight-no-ID-example.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: 
+                message: "fligt updated"
+    delete:
+      headers:
+        client_id:
+          required: false
+        client_secret:
+          required: false
+      responses:
+        200:
+          body:
+            application/json:
+              example: 
+                message: "fligt deleted"
